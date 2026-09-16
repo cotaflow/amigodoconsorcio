@@ -85,10 +85,10 @@
     border-bottom:1px solid rgba(255,255,255,0.08);
   }
   .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
-  .logo-img{ height:28px; width:auto; }
+  .logo-img{ height:40px; width:auto; }
 
   @media (min-width: 640px){
-    .logo-img{ height:32px; }
+    .logo-img{ height:46px; }
   }
 </style>
 <style>
@@ -118,6 +118,34 @@
     pointer-events:none;
   }
   .hero-inner{ position:relative; z-index:1; }
+  .hero-art{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .hero-art .glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(6px);
+  }
+  .hero-art .glow-blue{
+    width:460px; height:460px;
+    right:-140px; top:-140px;
+    background:radial-gradient(circle, rgba(85,184,255,0.30), rgba(85,184,255,0) 68%);
+  }
+  .hero-art .glow-red{
+    width:420px; height:420px;
+    left:-150px; bottom:-160px;
+    background:radial-gradient(circle, rgba(239,8,24,0.24), rgba(239,8,24,0) 68%);
+  }
+  .hero-art svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
   .kicker{
     display:inline-flex;
     align-items:center;
@@ -480,7 +508,7 @@
   .funnel-note a{ color:var(--blue); text-decoration:underline; }
 
   /* microresultado */
-  .micro-check{ color:var(--red); font-size:0.85rem; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .micro-check{ color:var(--blue); font-size:0.85rem; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
   .micro-check svg{ width:18px; height:18px; }
   .micro-grid{ display:flex; flex-direction:column; gap:14px; margin-bottom:24px; }
   .micro-item{ background:rgba(255,255,255,0.05); border-radius:12px; padding:14px 16px; }
@@ -528,7 +556,34 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero" data-section="hero">
-  <div class="wrap hero-inner">
+  <div class="hero-art">
+    <div class="glow glow-blue"></div>
+    <div class="glow glow-red"></div>
+    <svg viewBox="0 0 900 700" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="trailRed" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#EF0818" stop-opacity="0"/>
+          <stop offset="55%" stop-color="#EF0818" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#EF0818" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="trailBlue" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#55B8FF" stop-opacity="0"/>
+          <stop offset="55%" stop-color="#55B8FF" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#55B8FF" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+      </defs>
+      <g filter="url(#softBlur)" fill="none" stroke-linecap="round">
+        <path d="M -80 560 C 180 500, 340 380, 720 90" stroke="url(#trailBlue)" stroke-width="2.5"/>
+        <path d="M -100 620 C 220 560, 400 420, 800 170" stroke="url(#trailRed)" stroke-width="4"/>
+        <path d="M -60 480 C 160 430, 300 320, 640 40" stroke="url(#trailBlue)" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+
+<div class="wrap hero-inner">
     <div>
       <span class="kicker">CONSÓRCIO DE VEÍCULOS</span>
       <h1>Seu próximo veículo começa com um bom planejamento.</h1>
@@ -542,6 +597,8 @@
         <span>Planejamento personalizado</span>
         <span>Consórcio com transparência</span>
       </div>
+
+
 
       <!-- Cards de identificação -->
       <div class="id-cards">
@@ -800,7 +857,6 @@
         <div class="funnel-step" data-step="momento">
           <h3>Quando você gostaria de estar com seu veículo?</h3>
           <div class="funnel-choices" data-field="momento">
-            <button type="button" class="funnel-choice" data-value="asap"><span>O quanto antes</span><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
             <button type="button" class="funnel-choice" data-value="up_to_3_months"><span>Em até 3 meses</span><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
             <button type="button" class="funnel-choice" data-value="3_to_6_months"><span>De 3 a 6 meses</span><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
             <button type="button" class="funnel-choice" data-value="planning_no_rush"><span>Não tenho pressa e quero me planejar</span><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></button>
@@ -993,7 +1049,6 @@
     'above_250000': 'Acima de R$ 250 mil'
   };
   var MOMENTO_LABELS = {
-    asap: 'O quanto antes',
     up_to_3_months: 'Em até 3 meses',
     '3_to_6_months': 'De 3 a 6 meses',
     planning_no_rush: 'Não tenho pressa e quero me planejar'
@@ -1018,6 +1073,18 @@
     experienced: '',
     some_questions: 'Tenho algumas dúvidas sobre como o consórcio funciona na prática.',
     beginner: 'Ainda não conheço bem o consórcio e gostaria de entender melhor antes de decidir.'
+  };
+  var MOTIVACAO_LABELS = {
+    contemplation_concern: 'Receio de demorar para ser contemplado',
+    financing_alternative: 'Quer evitar os juros do financiamento',
+    monthly_budget: 'Quer uma parcela que caiba no planejamento',
+    needs_explanation: 'Ainda tem dúvidas sobre como o consórcio funciona',
+    purchase_planning: 'Quer se planejar melhor para comprar'
+  };
+  var CONHECIMENTO_LABELS = {
+    experienced: 'Já conhece e sabe como funciona',
+    some_questions: 'Conhece um pouco, mas tem algumas dúvidas',
+    beginner: 'Ainda não sabe como funciona'
   };
 
   // ===================================================================
@@ -1173,18 +1240,21 @@
   }
 
   function buildWhatsappMessage(){
-    var mainConcern = MOTIVACAO_WA[answers.motivacao] || '';
-    var knowledge = CONHECIMENTO_WA[answers.conhecimento] || '';
+    var motivacaoLabel = MOTIVACAO_LABELS[answers.motivacao] || 'Não informado';
+    var conhecimentoLabel = CONHECIMENTO_LABELS[answers.conhecimento] || 'Não informado';
     var lines = [
-      'Olá! Acabei de concluir minha análise na Amigo do Consórcio.',
-      'Meu objetivo: ' + (OBJETIVO_LABELS[answers.objetivo] || ''),
-      'Crédito que procuro: ' + (CREDITO_LABELS[answers.credito] || ''),
-      'Gostaria de estar com meu veículo: ' + (MOMENTO_LABELS[answers.momento] || ''),
-      'Pretendo investir: ' + (INVESTIMENTO_LABELS[answers.investimento] || '') + ' por mês'
+      'NOVO LEAD - AMIGO DO CONSÓRCIO',
+      'Protocolo: ' + currentProtocolId,
+      '',
+      'Objetivo: ' + (OBJETIVO_LABELS[answers.objetivo] || 'Não informado'),
+      'Crédito desejado: ' + (CREDITO_LABELS[answers.credito] || 'Não informado'),
+      'Prazo desejado: ' + (MOMENTO_LABELS[answers.momento] || 'Não informado'),
+      'Investimento mensal: ' + (INVESTIMENTO_LABELS[answers.investimento] || 'Não informado'),
+      'Conhecimento sobre consórcio: ' + conhecimentoLabel,
+      'Principal motivação/dúvida: ' + motivacaoLabel,
+      '',
+      'Olá! Vim do site da Amigo do Consórcio e gostaria de conhecer as opções disponíveis para o meu objetivo.'
     ];
-    if(mainConcern){ lines.push(mainConcern); }
-    if(knowledge){ lines.push(knowledge); }
-    lines.push('Gostaria de conhecer as opções disponíveis para o meu objetivo.');
     var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
     document.getElementById('funnel-whatsapp-btn').setAttribute('href', waUrl);
   }
