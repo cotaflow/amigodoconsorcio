@@ -991,18 +991,26 @@
   track('landing_view', UTMS);
 
   // ===================================================================
-  // Persistência — ponto único de conexão com o backend.
-  // Preencha LEAD_ENDPOINT com a URL do seu backend/CRM quando existir.
-  // Enquanto vazio, guarda temporariamente no navegador só pra não
-  // travar os testes — isso NÃO é a base profissional de leads exigida.
+  // Persistência dos leads — pra onde os dados vão quando alguém envia.
+  //
+  // Recomendado: Formspree (grátis, sem código no seu lado).
+  // 1. Crie uma conta em formspree.io e um formulário novo.
+  // 2. Copie a URL que ele te dá (algo como https://formspree.io/f/xxxxxxx).
+  // 3. Cole essa URL abaixo, em LEAD_ENDPOINT.
+  // Pronto — cada envio do site vira um e-mail pra você, com todos os
+  // dados já organizados. Se um dia você tiver um CRM/backend próprio,
+  // é só trocar essa mesma URL por ele.
+  //
+  // Enquanto LEAD_ENDPOINT estiver vazio, guarda temporariamente no
+  // navegador só pra não travar os testes.
   // ===================================================================
-  var LEAD_ENDPOINT = ''; // <-- Diogo: cole aqui a URL do endpoint
+  var LEAD_ENDPOINT = ''; // <-- Diogo: cole aqui a URL do Formspree (ou outro backend)
 
   function saveLead(payload){
     if(LEAD_ENDPOINT){
       return fetch(LEAD_ENDPOINT, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify(payload)
       }).then(function(res){
         if(!res.ok){ throw new Error('save failed'); }
@@ -1206,23 +1214,20 @@
     var digits = document.getElementById('funnel-phone').value.trim().replace(/\D/g, '');
     var protocolId = 'AC-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
     return {
-      id: protocolId,
-      criado_em: new Date().toISOString(),
-      nome: name,
-      telefone: '55' + digits,
-      respostas: {
-        objetivo: answers.objetivo,
-        credito: answers.credito,
-        momento: answers.momento,
-        investimento: answers.investimento,
-        motivacao: answers.motivacao,
-        conhecimento: answers.conhecimento
-      },
-      utm: UTMS,
-      pagina_origem: window.location.href,
-      referrer: document.referrer || '',
-      consentimento: {aceito: true, versao: 'v1', apresentado_em: new Date().toISOString()},
-      status: 'novo'
+      _subject: 'Novo lead - Amigo do Consórcio (' + protocolId + ')',
+      Protocolo: protocolId,
+      Nome: name,
+      Telefone: '+55' + digits,
+      Objetivo: OBJETIVO_LABELS[answers.objetivo] || 'Não informado',
+      'Crédito desejado': CREDITO_LABELS[answers.credito] || 'Não informado',
+      'Prazo desejado': MOMENTO_LABELS[answers.momento] || 'Não informado',
+      'Investimento mensal': INVESTIMENTO_LABELS[answers.investimento] || 'Não informado',
+      'Conhecimento sobre consórcio': CONHECIMENTO_LABELS[answers.conhecimento] || 'Não informado',
+      'Principal motivação/dúvida': MOTIVACAO_LABELS[answers.motivacao] || 'Não informado',
+      'Origem (UTM)': [UTMS.utm_source, UTMS.utm_medium, UTMS.utm_campaign].filter(Boolean).join(' / ') || 'Direto',
+      'Página de origem': window.location.href,
+      'Criado em': new Date().toLocaleString('pt-BR'),
+      id: protocolId
     };
   }
 
